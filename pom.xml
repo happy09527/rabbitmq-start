@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>rabbitmq-start</module>
+        <module>boot-mq</module>
     </modules>
 
     <properties>
