@@ -28,5 +28,4 @@ public class DeadConsumer {
         String msg = new String(message.getBody());
         log.info("时间{}收到队列的消息{}",new Date(),msg);
     }
-
 }

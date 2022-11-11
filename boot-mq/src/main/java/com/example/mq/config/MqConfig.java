@@ -24,6 +24,8 @@ public class MqConfig {
     //普通队列的名称
     public static final String QUEUE_A="QA";
     public static final String QUEUE_B="QB";
+    //普通队列的名称
+    public static final String QUEUE_C = "QC";
     //死信队列的名称
     public static final String DEAD_LETTER_QUEUE="QD";
     //声明xExchange  别名
@@ -64,6 +66,16 @@ public class MqConfig {
         return QueueBuilder.durable(QUEUE_B).withArguments(arguments).build();
     }
 
+    //声明QC
+    @Bean
+    public Queue queueC(){
+        Map<String,Object> arguments = new HashMap<>(3);
+        //设置死信交换机
+        arguments.put("x-dead-letter-exchange",Y_DEAD_LETTER_EXCHANGE);
+        //设置死信RoutingKey
+        arguments.put("x-dead-letter-routing-key","YD");
+        return QueueBuilder.durable(QUEUE_C).withArguments(arguments).build();
+    }
     //声明死信队列  要有ttl 为40s
     @Bean
     public Queue queueD(){
@@ -83,7 +95,12 @@ public class MqConfig {
                                   @Qualifier("xExchange") DirectExchange xExchange){
         return BindingBuilder.bind(queueB).to(xExchange).with("XB");
     }
-
+    //声明队列 QC 绑定 X 交换机
+    @Bean
+    public Binding queueCBindingX(@Qualifier("queueC") Queue queueC,
+                                  @Qualifier("xExchange")DirectExchange xExchange){
+        return BindingBuilder.bind(queueC).to(xExchange).with("XC");
+    }
     //声明队列 QD 绑定 Y 交换机
     @Bean
     public Binding queueDBindingY(@Qualifier("queueD") Queue queueD,
