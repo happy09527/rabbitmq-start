@@ -1,5 +1,6 @@
 package com.example.mq.controller;
 
+import com.example.mq.config.ConfirmConfig;
 import com.example.mq.config.DelayQueueConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -60,15 +61,30 @@ public class ProducerController {
     //开始发消息，基于插件的 消息及 延迟的时间
     @GetMapping("/sendDelayMsg/{message}/{delayTime}")
     public void sendMsg(@PathVariable("message") String message,
-                        @PathVariable("delayTime") Integer delayTime){
+                        @PathVariable("delayTime") Integer delayTime) {
         log.info("当前时间:{},发送一条时长是{}毫秒TTL信息给延迟队列delayed.queue：{}",
-                new Date().toString(),delayTime,message);
+                new Date().toString(), delayTime, message);
 
         rabbitTemplate.convertAndSend(DelayQueueConfig.DELAYED_EXCHANGE_NAME,
-                DelayQueueConfig.DELAYED_ROUTING_KEY,message, msg -> {
+                DelayQueueConfig.DELAYED_ROUTING_KEY, message, msg -> {
                     //发送消息的时候的延迟时长 单位ms
                     msg.getMessageProperties().setDelay(delayTime);
                     return msg;
                 });
+    }
+
+    /**
+     * @author: ZhangX
+     * @date: 2022/11/11 19:38
+     * @param:
+     * @return:
+     * @description: 高级消息确认
+     * 发布测试
+     **/
+    @GetMapping("sendMsg/{msg}")
+    public void testSendMsg(@PathVariable("msg") String msg) {
+        rabbitTemplate.convertAndSend(ConfirmConfig.CONFIRM_EXCHANGE_NAME, ConfirmConfig.CONFIRM_ROUTING_KEY, msg);
+        log.info("发送消息内容为{}", msg);
+
     }
 }
