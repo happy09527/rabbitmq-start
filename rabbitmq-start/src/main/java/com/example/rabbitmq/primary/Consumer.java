@@ -65,6 +65,4 @@ public class Consumer {
         channel.basicConsume(QUEUE_NAME, false, deliverCallback, cancelCallback);
         System.out.println("接收成功");
     }
-
-
 }

@@ -15,10 +15,9 @@ public class Consumer1 {
 
     public static void main(String[] args) throws Exception {
         Channel channel = MqUtils.getChannel();
-        //声明一个direct交换机
-        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
         //声明一个队列
         channel.queueDeclare("console",false,false,false,null);
+        // 进行绑定，队列与交换机 参数为： 队列名称、交换机名称、routing key
         channel.queueBind("console",EXCHANGE_NAME,"info");
         channel.queueBind("console",EXCHANGE_NAME,"warning");
         //接收消息

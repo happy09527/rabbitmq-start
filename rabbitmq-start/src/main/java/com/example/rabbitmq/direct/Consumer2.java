@@ -8,7 +8,7 @@ import com.rabbitmq.client.DeliverCallback;
 /**
  * @author: ZhangX
  * @createDate: 2022/11/9
- * @description:
+ * @description:  直连交换机模式
  */
 public class Consumer2 {
 
@@ -16,8 +16,6 @@ public class Consumer2 {
 
     public static void main(String[] args) throws Exception {
         Channel channel = MqUtils.getChannel();
-        //声明一个direct交换机
-        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
         //声明一个队列
         channel.queueDeclare("disk",false,false,false,null);
         channel.queueBind("disk",EXCHANGE_NAME,"error");

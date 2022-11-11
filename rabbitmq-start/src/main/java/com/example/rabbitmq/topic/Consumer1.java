@@ -8,7 +8,8 @@ import com.rabbitmq.client.DeliverCallback;
 /**
  * @author: ZhangX
  * @createDate: 2022/11/9
- * @description:
+ * @description: TOPIC 模式
+ * 声明交换机既可以在生产者，也可以在消费者
  */
 public class Consumer1 {
     //交换机的名称

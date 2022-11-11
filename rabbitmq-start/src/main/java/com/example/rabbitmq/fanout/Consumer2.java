@@ -10,7 +10,7 @@ import com.rabbitmq.client.DeliverCallback;
  * @description:
  */
 public class Consumer2 {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         consume();
     }
 
@@ -18,7 +18,7 @@ public class Consumer2 {
 
     public static void consume() throws Exception {
         Channel channel = MqUtils.getChannel();
-        channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+
         String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, EXCHANGE_NAME, "");
 
